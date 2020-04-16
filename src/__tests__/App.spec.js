@@ -81,6 +81,6 @@ describe("Likes", () => {
 
     await actWait();
 
-    expect(getByTestId(`repository-likes-${repositoryId}`)).toHaveTextContent("2 curtidas");
+    expect(getByTestId(`repository-likes-${repositoryId}`)).toHaveTextContent("2 curtida");
   });
 });

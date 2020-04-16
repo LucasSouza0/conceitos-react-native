@@ -21,12 +21,16 @@ export default function App() {
   }, []);
 
   async function handleLikeRepository(id) {
-    
-    await api.post(`repositories/${id}/like`);
 
-    api.get('repositories').then(response => {
-      setRepositories(response.data);
-    })
+    const teste = await api.post(`repositories/${id}/like`, {});
+
+    const repositorieIndex = repositories.findIndex(
+      repositorie => repositorie.id === id
+    );
+
+    repositories.splice(repositorieIndex, 1);
+
+    setRepositories([...repositories,teste.data])
 
   }
 
@@ -37,14 +41,14 @@ export default function App() {
 
         <FlatList
           data={repositories}
-          keyExtractor={repository => repositories.id}
+          keyExtractor={repository => repository.id}
           renderItem={({ item }) => (
-            
+
             <View style={styles.repositoryContainer}>
-              <Text key={item.id} style={styles.repository}>{item.title}</Text>
+              <Text style={styles.repository}>{item.title}</Text>
               {item.techs.map(tech => (
-                <View style={styles.techsContainer}>
-                  <Text key={tech} style={styles.tech}>
+                <View key={tech} style={styles.techsContainer}>
+                  <Text style={styles.tech}>
                     {tech}
                   </Text>
                 </View>
@@ -54,8 +58,9 @@ export default function App() {
                 <Text
                   style={styles.likeText}
                   testID={`repository-likes-${item.id}`}
+                  key={item.id}
                 >
-                  {item.like} curtida
+                  {item.likes} curtida
                 </Text>
               </View>
 
